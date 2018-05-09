@@ -88,6 +88,7 @@ if args.theano_backend is True and args.quantize is True:
 
 # In[ ]:
 
+import os
 from keras.models import load_model
 import tensorflow as tf
 from pathlib import Path
@@ -95,8 +96,9 @@ from keras import backend as K
 
 output_fld =  args.input_fld if args.output_fld == '' else args.output_fld
 if args.output_model_file == '':
-    args.output_model_file = str(Path(args.input_model_file).name) + '.pb'
-Path(output_fld).mkdir(parents=True, exist_ok=True)    
+    args.output_model_file = str(Path(args.input_model_file).name)[:str(Path(args.input_model_file).name).rfind(".")] + '.pb'
+if not os.path.exists(output_fld):
+    os.makedirs(output_fld)
 weight_file_path = str(Path(args.input_fld) / args.input_model_file)
 
 
